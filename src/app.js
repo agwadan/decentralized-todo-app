@@ -39,11 +39,13 @@ App = {
   },
 
   loadAccount: async () => {
-    App.account = web3.eth.accounts[0];
-    console.log(App.account);
+    web3.eth.getAccounts().then(
+      function (acc) {
+        accounts = acc
+        console.log(accounts[0]);
+      });
   }
 }
-
 
 $(() => {
   $(window).load(() => {
