@@ -49,8 +49,6 @@ App = {
           console.log(`Account ----> ${accounts[0]}`);
           return accounts[0];
         });
-
-    console.log(`App.account -------> ${App.account}`);
   },
 
   loadContract: async () => {
@@ -61,12 +59,10 @@ App = {
 
     /* Hydrate smart contract with current values from the blockchain */
     App.todoList = await App.contracts.TodoList.deployed();
-    console.log(App.todoList);
   },
 
   render: async () => {
     $('#account').html(`${App.account}`);
-    console.log(`App.Account -------> ${App.account}`);
   }
 }
 
