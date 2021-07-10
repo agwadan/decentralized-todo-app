@@ -1,9 +1,12 @@
 App = {
+  contracts: {},
   load: async () => {
-    console.log('App Runnig...');
+    console.log('App Running...');
     await App.loadWeb3();//----> allows web browser work with the blockchain.
     await App.loadAccount();
-    web3.eth.defaultAccount = web3.eth.accounts[0];
+    await App.loadContract();
+    await App.render();
+    //web3.eth.defaultAccount = web3.eth.accounts[0];
   },
 
   loadWeb3: async () => {
@@ -39,11 +42,31 @@ App = {
   },
 
   loadAccount: async () => {
-    web3.eth.getAccounts().then(
-      function (acc) {
-        accounts = acc
-        console.log(accounts[0]);
-      });
+    App.account = await web3.eth.getAccounts()
+      .then(
+        function (acc) {
+          accounts = acc;
+          console.log(`Account ----> ${accounts[0]}`);
+          return accounts[0];
+        });
+
+    console.log(`App.account -------> ${App.account}`);
+  },
+
+  loadContract: async () => {
+    /* Create a JS version of the smart contract */
+    const todoList = await $.getJSON('TodoList.json');
+    App.contracts.TodoList = TruffleContract(todoList);
+    App.contracts.TodoList.setProvider(App.web3Provider);
+
+    /* Hydrate smart contract with current values from the blockchain */
+    App.todoList = await App.contracts.TodoList.deployed();
+    console.log(App.todoList);
+  },
+
+  render: async () => {
+    $('#account').html(`${App.account}`);
+    console.log(`App.Account -------> ${App.account}`);
   }
 }
 
