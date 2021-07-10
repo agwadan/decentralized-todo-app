@@ -1,4 +1,5 @@
 App = {
+  loading: false,
   contracts: {},
   load: async () => {
     console.log('App Running...');
@@ -6,7 +7,6 @@ App = {
     await App.loadAccount();
     await App.loadContract();
     await App.render();
-    //web3.eth.defaultAccount = web3.eth.accounts[0];
   },
 
   loadWeb3: async () => {
@@ -62,7 +62,25 @@ App = {
   },
 
   render: async () => {
+    if (App.loading) {
+      return
+    }
+    App.setLoading(true);
     $('#account').html(`${App.account}`);
+    App.setLoading(false);
+  },
+
+  setLoading: (boolean) => {
+    App.loading = boolean;
+    const loader = $('#loader');
+    const content = $('#content');
+    if (boolean) {
+      loader.show();
+      content.hide();
+    } else {
+      loader.hide();
+      content.show();
+    }
   }
 }
 
