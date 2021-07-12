@@ -27,7 +27,7 @@ contract TodoList {
     }
 
     function toggleCompleted(uint256 _id) public {
-        Task memory _task = tasks[_id]; //---> Underscore represents a local variable, not state variable
+        Task memory _task = tasks[_id]; //---------------------> Underscore represents a local variable, not state variable
         _task.completed = !_task.completed;
         tasks[_id] = _task;
         emit TaskCompleted(_id, _task.completed);

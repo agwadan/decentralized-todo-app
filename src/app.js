@@ -2,8 +2,7 @@ App = {
   loading: false,
   contracts: {},
   load: async () => {
-    console.log('App Running...');
-    await App.loadWeb3();//----> allows web browser work with the blockchain.
+    await App.loadWeb3();//--------------> allows web browser work with the blockchain.
     await App.loadAccount();
     await App.loadContract();
     await App.render();
@@ -46,7 +45,6 @@ App = {
       .then(
         function (acc) {
           accounts = acc;
-          console.log(`Account ----> ${accounts[0]}`);
           return accounts[0];
         });
   },
@@ -78,7 +76,6 @@ App = {
 
     //Render out each task with new task template
     for (var i = 1; i <= taskCount; i++) {
-      console.log(App.todoList);
       const task = await App.todoList.tasks(i);
       const taskId = task[0].toNumber();
       const taskContent = task[1];
@@ -106,9 +103,8 @@ App = {
 
   createTask: async () => {
     App.setLoading(true)
-    const content = $('#newTask').val()
-    console.log(content);
-    await App.todoList.createTask(content, { from: App.account })
+    const content = $('#newTask').val();
+    await App.todoList.createTask(content, { from: App.account });
     window.location.reload()
   },
 
@@ -116,7 +112,6 @@ App = {
     App.setLoading(true);
     const taskId = e.target.name;
     await App.todoList.toggleCompleted(taskId, { from: App.account });
-    console.log(App.todoList.toggleCompleted(taskId));
     window.location.reload();
   },
 
