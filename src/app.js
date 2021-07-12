@@ -84,14 +84,13 @@ App = {
       const taskContent = task[1];
       const taskCompleted = task[2];
 
-
       //Create HTML for the task
       const $newTaskTemplate = $taskTemplate.clone()
       $newTaskTemplate.find('.content').html(taskContent)
-      $newTaskTemplate.find('.input')
+      $newTaskTemplate.find('input')
         .prop('name', taskId)
         .prop('checked', taskCompleted)
-      //.on('click', App.toggleCompleted)
+        .on('click', App.toggleCompleted)
 
       //Put task in correct list
       if (taskCompleted) {
@@ -111,6 +110,14 @@ App = {
     console.log(content);
     await App.todoList.createTask(content, { from: App.account })
     window.location.reload()
+  },
+
+  toggleCompleted: async (e) => {
+    App.setLoading(true);
+    const taskId = e.target.name;
+    await App.todoList.toggleCompleted(taskId, { from: App.account });
+    console.log(App.todoList.toggleCompleted(taskId));
+    window.location.reload();
   },
 
   setLoading: (boolean) => {
